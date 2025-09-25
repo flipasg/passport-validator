@@ -26,7 +26,7 @@ const onInput = (event: Event) => {
     <div class="relative">
       <select
         :id="id"
-        class="w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base font-medium text-slate-900 shadow-sm transition focus:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-200"
+        class="w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base font-medium text-slate-900 shadow-sm transition focus:border-primary-500 focus-visible:border-primary-500 focus:outline-none focus:ring-0 focus-visible:ring-0"
         :value="modelValue"
         @input="onInput"
       >

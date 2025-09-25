@@ -21,14 +21,17 @@ const onInput = (event: Event) => {
     <input
       :id="id"
       type="text"
-      class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base font-medium text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-200"
+      class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base font-medium text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-primary-500 focus-visible:border-primary-500 focus:outline-none focus:ring-0 focus-visible:ring-0"
       :class="{ 'border-error-500 focus:border-error-500 focus:ring-error-100': error }"
       :value="modelValue"
       :placeholder="placeholder"
       autocomplete="off"
       @input="onInput"
     />
-    <p v-if="error" class="flex items-center gap-2 text-sm font-medium text-error-600">
+    <p
+      v-if="error"
+      class="flex items-center gap-2 text-sm font-medium text-error-600 text-red-600"
+    >
       <span aria-hidden="true">⚠️</span>
       <span>{{ error }}</span>
     </p>

@@ -1,4 +1,5 @@
 import { passportFormats } from './passportFormats';
+import type { PassportCountry } from './passportFormats';
 
 export { passportFormats } from './passportFormats';
 export type { PassportCountry } from './passportFormats';

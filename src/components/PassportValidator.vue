@@ -8,8 +8,15 @@ import { usePassportValidation } from '../application/passport/usePassportValida
 import CountrySelect from './passport/CountrySelect.vue';
 import PassportNumberInput from './passport/PassportNumberInput.vue';
 
-const { countries, state, feedback, validate, updateCountry, updatePassportNumber } =
-  usePassportValidation();
+const {
+  countries,
+  state,
+  feedback,
+  placeholder,
+  validate,
+  updateCountry,
+  updatePassportNumber,
+} = usePassportValidation();
 
 const countryPresentation: Record<PassportCountry, { label: string; icon: string }> = {
   USA: { label: 'United States', icon: '🇺🇸' },
@@ -70,7 +77,7 @@ const handleSubmit = (event: Event) => {
       <PassportNumberInput
         id="passport-number"
         label="Passport Number"
-        placeholder="123456789"
+        :placeholder="placeholder"
         :model-value="state.passportNumber"
         :error="feedback?.type === 'error' ? feedback.message : ''"
         @update:model-value="updatePassportNumber"

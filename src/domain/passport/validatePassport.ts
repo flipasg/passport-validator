@@ -32,14 +32,16 @@ export const validatePassport = (passportNumber: string, countryName: string): b
     return false;
   }
 
-  return [...format].every((token, index) => {
+  const tokens = [...format] as PassportFormatToken[];
+
+  return tokens.every((token, index) => {
     const validator = validators[token];
 
     if (!validator) {
       return false;
     }
 
-    const char = normalizedPassport[index];
-    return Boolean(char) && validator(char);
+    const char = normalizedPassport.charAt(index);
+    return char.length > 0 && validator(char);
   });
 };

@@ -1,6 +1,7 @@
 import { computed, reactive } from 'vue';
 import {
   passportCountries,
+  passportFormats,
   validatePassport,
   type PassportCountry,
 } from '../../domain/passport';
@@ -15,8 +16,10 @@ type PassportValidationState = {
 };
 
 export const usePassportValidation = () => {
+  const defaultCountry = (passportCountries[0] ?? 'USA') as PassportCountry;
+
   const state = reactive<PassportValidationState>({
-    country: passportCountries[0],
+    country: defaultCountry,
     passportNumber: '',
     status: 'idle',
     error: '',
@@ -78,11 +81,14 @@ export const usePassportValidation = () => {
 
   const isValid = computed(() => state.status === 'valid');
 
+  const placeholder = computed(() => passportFormats[state.country] ?? '');
+
   return {
     countries,
     state,
     feedback,
     isValid,
+    placeholder,
     updateCountry,
     updatePassportNumber,
     validate,
