@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
 import { describe, expect, it } from 'vitest';
 import PassportValidator from '../../src/components/PassportValidator.vue';
 
@@ -48,5 +49,35 @@ describe('PassportValidator component', () => {
     await select.setValue('Canada');
 
     expect(wrapper.text()).not.toContain('Passport number is valid.');
+  });
+
+  it('updates the passport placeholder to match the selected country format', async () => {
+    const wrapper = mountComponent();
+    const input = wrapper.get('#passport-number');
+    const select = wrapper.get('#passport-country');
+
+    expect(input.attributes('placeholder')).toBe('LDDDDDDDD');
+
+    await select.setValue('Japan');
+    await nextTick();
+
+    expect(input.attributes('placeholder')).toBe('LLDDDDDDD');
+  });
+
+  it('renders the primary action button with a blue background', () => {
+    const wrapper = mountComponent();
+    const button = wrapper.get('button[type="submit"]');
+
+    expect(button.classes()).toContain('bg-primary-500');
+    expect(button.classes()).toContain('text-white');
+  });
+
+  it('applies slim focus styles to the passport input', () => {
+    const wrapper = mountComponent();
+    const input = wrapper.get('#passport-number');
+    const classString = input.attributes('class') ?? '';
+
+    expect(classString).toContain('focus:ring-0');
+    expect(classString).not.toContain('focus:ring-4');
   });
 });

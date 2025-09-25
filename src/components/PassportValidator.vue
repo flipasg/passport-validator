@@ -37,11 +37,21 @@ const selectedCountryLabel = computed(() =>
   countryPresentation[state.country]?.label ?? state.country
 );
 
-const handleCountryChange = (value: string) => {
-  if (passportCountries.includes(value as PassportCountry)) {
-    updateCountry(value as PassportCountry);
-  }
-};
+const countryModel = computed<PassportCountry>({
+  get: () => state.country,
+  set: (value) => {
+    if (passportCountries.includes(value)) {
+      updateCountry(value);
+    }
+  },
+});
+
+const passportNumberModel = computed<string>({
+  get: () => state.passportNumber,
+  set: (value) => {
+    updatePassportNumber(value);
+  },
+});
 
 const handleSubmit = (event: Event) => {
   event.preventDefault();
@@ -70,17 +80,15 @@ const handleSubmit = (event: Event) => {
         id="passport-country"
         label="Country Name"
         :options="countryOptions"
-        :model-value="state.country"
-        @update:model-value="handleCountryChange"
+        v-model="countryModel"
       />
 
       <PassportNumberInput
         id="passport-number"
         label="Passport Number"
         :placeholder="placeholder"
-        :model-value="state.passportNumber"
+        v-model="passportNumberModel"
         :error="feedback?.type === 'error' ? feedback.message : ''"
-        @update:model-value="updatePassportNumber"
       />
 
       <div v-if="feedback && feedback.type === 'success'" class="flex items-center gap-2 rounded-2xl bg-success-50 px-4 py-3 text-sm font-medium text-success-700">
@@ -90,7 +98,7 @@ const handleSubmit = (event: Event) => {
 
       <button
         type="submit"
-        class="w-full rounded-2xl bg-primary-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-primary-500/40 transition hover:bg-primary-600 focus:outline-none focus:ring-4 focus:ring-primary-200"
+        class="w-full rounded-2xl bg-primary-500 px-4 py-3 text-base font-semibold text-white shadow-lg shadow-primary-500/40 transition hover:bg-primary-600 focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-200"
       >
         Validate
       </button>

@@ -8,16 +8,10 @@ interface Option {
 defineProps<{
   id: string;
   label: string;
-  modelValue: string;
   options: Option[];
 }>();
 
-const emit = defineEmits<{ 'update:modelValue': [string] }>();
-
-const onInput = (event: Event) => {
-  const target = event.target as HTMLSelectElement;
-  emit('update:modelValue', target.value);
-};
+const modelValue = defineModel<string>();
 </script>
 
 <template>
@@ -26,9 +20,8 @@ const onInput = (event: Event) => {
     <div class="relative">
       <select
         :id="id"
+        v-model="modelValue"
         class="w-full appearance-none rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base font-medium text-slate-900 shadow-sm transition focus:border-primary-500 focus-visible:border-primary-500 focus:outline-none focus:ring-0 focus-visible:ring-0"
-        :value="modelValue"
-        @input="onInput"
       >
         <option v-for="option in options" :key="option.value" :value="option.value">
           {{ option.icon ? `${option.icon} ${option.label}` : option.label }}
