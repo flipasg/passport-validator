@@ -1,33 +1,37 @@
-import { passportFormats } from '../constants';
-import { validatePassport } from '../src/utils/PassportValidator';
-describe('PassporNumberValidator', () => {
-  test('should validate correclty passport from USA', () => {
-    const passport = 'U12345678';
+import { describe, expect, it } from 'vitest';
+import { validatePassport } from '../src/domain/passport/validatePassport';
 
-    expect(validatePassport(passport, 'USA')).toBe(true);
+describe('validatePassport', () => {
+  const samples: Record<string, string> = {
+    USA: 'A12345678',
+    Canada: 'AB123456',
+    Ireland: 'AA1234567',
+    Japan: 'AB1234567',
+  };
+
+  Object.entries(samples).forEach(([country, passport]) => {
+    it(`accepts a valid passport format for ${country}`, () => {
+      expect(validatePassport(passport, country)).toBe(true);
+    });
   });
 
-  test('should validate correclty passport from Canada', () => {
-    const passport = 'CA123456';
-
-    expect(validatePassport(passport, 'Canada')).toBe(true);
+  it('rejects blank passport numbers', () => {
+    expect(validatePassport('', 'USA')).toBe(false);
   });
 
-  test('should validate correclty passport from Ireland', () => {
-    const passport = 'C91234567';
-
-    expect(validatePassport(passport, 'Ireland')).toBe(true);
+  it('rejects passports with invalid length', () => {
+    expect(validatePassport('A1234567', 'USA')).toBe(false);
   });
 
-  test('should validate correclty passport from Ireland', () => {
-    const passport = 'JA1234567';
-
-    expect(validatePassport(passport, 'Ireland')).toBe(true);
+  it('rejects passports with invalid letters in numeric positions', () => {
+    expect(validatePassport('AB2345678', 'USA')).toBe(false);
   });
 
-  test('should not validate with different lengths passport from Ireland', () => {
-    const passport = 'JA12345678';
+  it('rejects passports with digits in letter-only positions', () => {
+    expect(validatePassport('1B123456', 'Canada')).toBe(false);
+  });
 
-    expect(validatePassport(passport, 'Ireland')).toBe(false);
+  it('rejects passports for unsupported countries', () => {
+    expect(validatePassport('AA1234567', 'Spain')).toBe(false);
   });
 });
