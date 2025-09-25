@@ -4,7 +4,7 @@ import {
   passportCountries,
   type PassportCountry,
 } from '../domain/passport';
-import { usePassportValidation } from '../application/passport/usePassportValidation';
+import { usePassportValidation } from '../application/composables/usePassportValidation';
 import CountrySelect from './passport/CountrySelect.vue';
 import PassportNumberInput from './passport/PassportNumberInput.vue';
 
